@@ -50,6 +50,10 @@ import * as winston from 'winston';
         HASH_ROUNDS: joi.number().required(),
         ACCESS_TOKEN_SECRET: joi.string().required(),
         REFRESH_TOKEN_SECRET: joi.string().required(),
+        AWS_SECRET_ACCESS_KEY: joi.string().required(),
+        AWS_ACCESS_KEY_ID: joi.string().required(),
+        AWS_REGION: joi.string().required(),
+        BUCKET_NAME: joi.string().required(),
       }),
     }),
     TypeOrmModule.forRootAsync({
@@ -65,9 +69,10 @@ import * as winston from 'winston';
           configService.get<string>(envVariableKeys.env) === 'prod'
             ? false
             : true,
-        ...(configService.get<string>(envVariableKeys.env) === 'prod' && {
-          ssl: { rejectUnauthorized: false },
-        }),
+        ...(configService.get<string>(envVariableKeys.env) === 'prod' &&
+          {
+            // ssl: { rejectUnauthorized: false },
+          }),
       }),
       inject: [ConfigService],
     }),
